@@ -27,8 +27,9 @@ for col in ad.columns[:-1]:
     print("r2", r2_score(sales, predicted_sales))
 
 
-
-
-
-
-
+all_three = np.column_stack((ad['TV'], ad['Radio'], ad['Newspaper']))
+clt.fit(all_three, sales)
+predicted_sales = clt.predict(all_three)
+print("\n\ncontribution through all together")
+print("mse", mean_squared_error(sales, predicted_sales))
+print("r2", r2_score(sales, predicted_sales))
