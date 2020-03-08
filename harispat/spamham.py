@@ -53,7 +53,7 @@ def genData():
     # df['contentLen'] = df['contentLen'].astype('int')
     # df1 = df[['NumRecipients', 'Subject', 'contentLen','FromLen','IsSpam',]]
 
-    df1 = df[['NumRecipients', 'Subject', 'content', 'From', 'IsSpam', ]]
+    df1 = df[['NumRecipients', 'Subject', 'content', 'From', 'IsSpam' ]]
     df1 = handle_non_numerical_data(df1)
     return df1
 
