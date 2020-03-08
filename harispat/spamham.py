@@ -42,7 +42,6 @@ def genData():
     # df['SubLen'] = df['Subject'].str.len()
     # df.fillna(df['SubLen'].mode()[0], inplace=True)
     # df['SubLen'] =  df['SubLen'].astype('int')
-
     # df['FromLen'] = df['From'].str.len()
     # df['FromLen'] = df['FromLen'].astype('int')
 
@@ -57,14 +56,6 @@ def genData():
     df1 = df[['NumRecipients', 'Subject', 'content', 'From', 'IsSpam', ]]
     df1 = handle_non_numerical_data(df1)
     return df1
-
-
-# tmp1 = df['NumRecipients'].corr(df['IsSpam'])
-# print("Correlation between NumRecipients & IsSpam : %s"% tmp1)
-# temp2 = df['contentLen'].corr(df['IsSpam'])
-# print("Correlation between mail body Length & IsSpam : %s"% temp2)
-# temp3 = df['SubLen'].corr(df['IsSpam'])
-# print("Correlation between subject length & IsSpam : %s"% temp3)
 
 
 def svm(X_train, X_test, y_train, y_test):
