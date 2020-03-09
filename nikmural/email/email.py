@@ -232,9 +232,21 @@ def process_data():
     X = cf
     y = np.array(emails_df['class'])
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=111)
+    df1 = score_all_models(x_train, x_test, y_train, y_test)
+    print(df1)
+    plot(df1)
     
     
-    df = score_all_models(x_train, x_test, y_train, y_test)
+    #Case 2: We will include length of email and check if it improves score.
+    emails_df['length'] = emails_df['content'].apply(len)
+    lf = emails_df['length'].as_matrix()
+    X = np.hstack((X.todense(),lf[:, None]))
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=111)
+    df2 = score_all_models(x_train, x_test, y_train, y_test)
+    print(df2)
+    plot(df2)
+    
+    df = pd.concat([df1,df2],axis=1)
     print(df)
     plot(df)
     
