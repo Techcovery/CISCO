@@ -279,7 +279,7 @@ def process_data():
     
     relevant_features = relevant_features.keys()
     X2 = num_df.loc[:, relevant_features].values
-    X2 = StandardScaler().fit_transform(X1)
+    X2 = StandardScaler().fit_transform(X2)
     
     X3 = np.hstack((X.todense(), X2, lf[:, None]))
     y = np.array(emails_df['class'])
