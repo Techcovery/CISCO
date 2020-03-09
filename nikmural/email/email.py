@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 from nltk.corpus import stopwords
 import string
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import  KNeighborsClassifier
@@ -168,7 +168,27 @@ def plot(df):
     plt.ylabel('Accuracy Score')
     plt.title('Distribution by Classifier')
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-    
+  
+def handle_non_numerical_data(df):
+    columns = df.columns.values
+    for column in columns:
+        text_digit_vals = {}
+        def convert_to_int(val):
+            return text_digit_vals[val]
+
+        if df[column].dtype != np.int64 and df[column].dtype != np.float64:
+            column_contents = df[column].values.tolist()
+            unique_elements = set(column_contents)
+            x = 0
+            for unique in unique_elements:
+                if unique not in text_digit_vals:
+                    text_digit_vals[unique] = x
+                    x+=1
+
+            df[column] = list(map(convert_to_int, df[column]))
+
+    return df
+
 def process_data():
     df = pd.read_excel('email.xlsx')
     emails_df = df.sample(n = 500)
@@ -228,6 +248,7 @@ def process_data():
     vectorizer = TfidfVectorizer("english")
     cf = vectorizer.fit_transform(email_text)
     
+
     #Case 1: Use only email contents to identify spams/hams
     X = cf
     y = np.array(emails_df['class'])
@@ -240,15 +261,40 @@ def process_data():
     #Case 2: We will include length of email and check if it improves score.
     emails_df['length'] = emails_df['content'].apply(len)
     lf = emails_df['length'].as_matrix()
-    X = np.hstack((X.todense(),lf[:, None]))
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=111)
+    X1 = np.hstack((X.todense(),lf[:, None]))
+    x_train, x_test, y_train, y_test = train_test_split(X1, y, test_size=0.3, random_state=111)
     df2 = score_all_models(x_train, x_test, y_train, y_test)
     print(df2)
     plot(df2)
     
-    df = pd.concat([df1,df2],axis=1)
+    
+    #Case 3: we will try correlation matrix with other features and see if we can improve accuracy
+    add_df = emails_df.drop(['content', 'user', 'file'], 1)
+    num_df = handle_non_numerical_data(add_df)
+    
+    corr_matrix = num_df.corr()
+    cor_target = abs(corr_matrix['class'])
+    relevant_features = cor_target[cor_target>0.1]
+    print(relevant_features)
+    
+    relevant_features = relevant_features.keys()
+    X2 = num_df.loc[:, relevant_features].values
+    X2 = StandardScaler().fit_transform(X1)
+    
+    X3 = np.hstack((X.todense(), X2, lf[:, None]))
+    y = np.array(emails_df['class'])
+    
+    x_train, x_test, y_train, y_test = train_test_split(X3, y, test_size=0.3, random_state=111)
+    df3 = score_all_models(x_train, x_test, y_train, y_test)
+    print(df3)
+    plot(df3)
+    
+    
+    df = pd.concat([df1, df2, df3], axis=1)
     print(df)
     plot(df)
+    
+    
     
 if __name__ == "__main__":
     process_data()
