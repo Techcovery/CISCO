@@ -1,0 +1,9 @@
+Comment for EnronHamspam.py
+
+Classifying ham Vs spam is a binary classification problem. while you have exaustively explored all possible algorithms and features
+it is unclear why you chose to run Regression algorithms. PCA is generally used for regression only. In the event that you want perdor feature transformation you may want to consider using Linear discrimenent Analysis(LDA). 
+we will discuss this in the up comming class.
+
+
+You want to try specific versions of neural networks like LSTMs and GRUs 
+for better results along with embedding of semantic information.
