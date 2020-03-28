@@ -1,0 +1,5 @@
+Comments For Sales_prediction
+
+You have attempted to use linear regression and polynomial regression for this problem. While applying linear regression the key is to 
+identifying right set of featues. you can draw a correlation graph to identify right set of featues. You can also try feature bagging for highly correlated features. You can try feature transform using PCA. You can search the right set of hyper parameters using grid search or bayesian inferencing.
+we will discuss these points in the class
