@@ -1,0 +1,6 @@
+Comments for Sales_predict
+
+You have attempted to solve this problem using Multi linear regression, Polynomial regression and have transformed features using PCA.
+Before we start transforming features it would be a good idea to try feature elemination by looking at correlation matrix.
+In this case a correlation graph would have clearly reduced features and may have resulted in feature baggging.
+you can also use hyper parameter search techniques like grid search or bayesian inferencing to identify the right degress for polynomial regression

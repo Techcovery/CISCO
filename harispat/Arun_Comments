@@ -1,0 +1,8 @@
+Comments for adv.py
+
+You have attempted to slove this problem using polynomial regession and linear regression. 
+The first step in solving these problems is to identifying right set of features. You may want to consider the correlation map of featues and perform
+feature engineering techniques like PCA. 
+You may choose hyper parameter for polynomial regression (degree) using grid search or bayesian search
+Feature selection is the critical part in any
+regession problem. 
