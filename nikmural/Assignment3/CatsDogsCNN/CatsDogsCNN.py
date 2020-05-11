@@ -1,9 +1,10 @@
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
-from keras import backend as K
 import pandas as pd
 import os
+import numpy as np
+
 
 
 #Declare some constants
@@ -164,6 +165,20 @@ for i in range(0, 15):
 plt.tight_layout()
 plt.show()
 
+#Fit model
+history = model.fit_generator(
+    train_generator, 
+    epochs=epochs,
+    validation_data=validation_generator,
+    validation_steps=total_test//batch_size,
+    steps_per_epoch=total_train//batch_size,
+    callbacks=callbacks
+)
+
+#Save model
+model.save_weights("model.h5")
+
+
 #Plot accuracies and losses
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 12))
 ax1.plot(history.history['loss'], color='b', label="Training loss")
@@ -179,26 +194,8 @@ legend = plt.legend(loc='best', shadow=True)
 plt.tight_layout()
 plt.show()
 
-
-#Fit model
-history = model.fit_generator(
-    train_generator, 
-    epochs=epochs,
-    validation_data=validation_generator,
-    validation_steps=total_test//batch_size,
-    steps_per_epoch=total_train//batch_size,
-    callbacks=callbacks
-)
-
-#Save model
-model.save_weights("model.h5")
-
-
-
 #Let's try prediction
-import numpy as np
 from keras.preprocessing import image
-
 img_pred = image.load_img('dogscats/valid/cat.5646.jpg', target_size = (150, 150))
 img_pred = image.img_to_array(img_pred)
 img_pred = np.expand_dims(img_pred, axis = 0)
