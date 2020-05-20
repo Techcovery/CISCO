@@ -28,12 +28,46 @@ X = vect.fit_transform(emails.message)
 features = vect.get_feature_names()
 
 X_dense = X.todense()
+print (X_dense.shape)
+print (X.toarray())
+
+y = emails['label']
+y = y.apply({'ham':0, 'spam':1}.get)
+#y.replace()
+print(y)
+
+
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(X_dense, y, test_size=0.2)
+
+print(len(X_train), 'train sequences')
+print(len(X_test), 'test sequences')
+
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
+
+max_features = len(features)
+model = Sequential()
+#model.add(Embedding(max_features, 128, input_length=maxlen))
+model.add(Embedding(max_features, 128))
+model.add(Bidirectional(LSTM(64)))
+#model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid'))
+
+# try using different optimizers and different optimizer configs
+model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
+
+print('Train...')
+model.fit(X_train, y_train,
+          batch_size=100,
+          epochs=4,
+          validation_data=[X_test, y_test])
+
+Y_predict = model.predict(X_test)
+'''
+
 pca = PCA(n_components=20).fit(X_dense)
 coords = pca.transform(X_dense)
 
-y = emails['label']
-
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(X_dense, y, test_size=0.2)
 
 clf = svm.SVC(gamma='scale')
 #Run SVM and calculate confidence
@@ -67,3 +101,4 @@ tree.fit(X_train, y_train)
 
 print("Confidence with DTC is ", tree.score(X_test, y_test))
 
+'''
