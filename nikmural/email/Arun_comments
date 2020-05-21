@@ -1,0 +1,7 @@
+Comment for Email.py
+
+you have extensively identified  features and  implemented multiple models including ensembles. While identifying featues you have selected Tfidfvectoriser.
+the tfidvectoriser willnot capture semantic information. We will discuss this in the upcoming class by using wordtovec and bi directional lstm based vectorisers.
+You may be able to get better results by using LSTMs and GRUs which will also be discussed in the subsequent classes.
+
+For what is know at this point you have done an extensive analysis

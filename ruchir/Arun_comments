@@ -1,0 +1,3 @@
+Comments for sales_predition
+
+You have attempted to solve this problem using polynomial regression. How did you choose this model over others? How did you choose hyper parametr used for this model? you may want to explore all possible models before narrowing down on one model. You may want to look at the right set of features using correlation and reccursive feature elemination be doing feature transformation.
